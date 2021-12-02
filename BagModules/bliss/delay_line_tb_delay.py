@@ -57,10 +57,8 @@ class bliss__delay_line_tb_delay(Module):
         num_out = dut_num_inv // 2
         num_outb = dut_num_inv - num_out if has_outb else 0
 
-        suffix_out_long     = f'<{num_out-1}:0>' if num_out > 1 else ''
-        suffix_outb_long    = f'<{num_bout-1}:0>' if num_outb > 1 else ''
-        suffix_out_short    = f'<{num_out-2}:0>' if num_out > 2 else ''
-        suffix_outb_short   = f'<{num_outb-2}:0>' if num_outb > 2 else ''
+        suffix_out     = f'<{num_out-1}:0>' if num_out > 1 else '<0>'
+        suffix_outb    = f'<{num_bout-1}:0>' if num_outb > 1 else '<0>'
 
         # Design DUT
         self.instances['XDUT'].design(**dut_params)
@@ -68,11 +66,10 @@ class bliss__delay_line_tb_delay(Module):
         # Fix wiring
         if num_outb < 1:
             self.delete_instance('C0')
-        elif num_outb > 1:
-            self.array_instance('C0', [f'C0{suffix_outb_long}'], [dict(PLUS=f'outb,outbx{suffix_outb_short}',
+        else:
+            self.array_instance('C0', [f'C0{suffix_outb}'], [dict(PLUS=f'outb{suffix_outb}',
                                                                 MINUS='VSS')])
-            self.reconnect_instance_terminal('XDUT', f'outb{suffix_outb_long}', f'outb,outbx{suffix_outb_short}')
-        if num_out > 1:
-            self.array_instance('CL', [f'CL{suffix_out_long}'], [dict(PLUS=f'out,outx{suffix_out_short}',
-                                                                MINUS='VSS')])
-            self.reconnect_instance_terminal('XDUT', f'out{suffix_out_long}', f'out,outx{suffix_out_short}')
+            self.reconnect_instance_terminal('XDUT', f'outb{suffix_outb}', f'outb{suffix_outb}')
+        self.array_instance('CL', [f'CL{suffix_out}'], [dict(PLUS=f'out{suffix_out}',
+                                                            MINUS='VSS')])
+        self.reconnect_instance_terminal('XDUT', f'out{suffix_out}', f'out{suffix_out}')

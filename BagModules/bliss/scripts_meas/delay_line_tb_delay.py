@@ -19,7 +19,10 @@ def get_tb_name():
 	return 'zz_delay_line_tb_delay'
 
 def meas(prj, tb_params, vmid_in_r, vmid_out_r, vmid_in_f, vmid_out_f):
-	meas_inv = tb_params['dut_params']['export_outb']
+	dut_params = tb_params['dut_params']
+	meas_inv = dut_params['export_outb']
+	num_out = dut_params['num_inv']//2
+	num_outb = dut_params['num_inv']-num_out if dut_params['export_outb'] else 0
 
 	# Generate testbench
 	tb_name = get_tb_name()
@@ -48,6 +51,13 @@ def meas(prj, tb_params, vmid_in_r, vmid_out_r, vmid_in_f, vmid_out_f):
 	for var,val in param_map.items():
 		tb_obj.set_parameter(var, val)
 
+	# Add outputs as necessary
+	if meas_inv:
+		for i in range(num_outb):
+			tb_obj.add_output(f'tran_outb{i}', f'VT("/outb<{i}>")')
+	for i in range(num_out):
+		tb_obj.add_output(f'tran_out{i}', f'VT("/out<{i}>")')
+
 	# Update testbench changes and run simulation
 	tb_obj.update_testbench()
 	print(f'Simulating testbench {tb_name}')
@@ -57,23 +67,33 @@ def meas(prj, tb_params, vmid_in_r, vmid_out_r, vmid_in_f, vmid_out_f):
 	print('Simulation done, loading results')
 	results = load_sim_results(save_dir)
 
-	# Return total propagation time from the input to the output(s)
-	tprop_dict = dict()
+	# Return total propagation time from the input to all the outputs
+	tprop_dict 	= dict()
 	t_vec 		= results['time']
 	in_vec 		= results['tran_in']
 
-	out_vec 	= results['tran_out']
-	tprop_r_out = calc_tprop(t_vec, in_vec, out_vec, 1, vmid_in_r, vmid_out_r, positive=True, inverted=False)
-	tprop_f_out = calc_tprop(t_vec, in_vec, out_vec, 1, vmid_in_f, vmid_out_f, positive=False, inverted=False)
-	tprop_dict['out_rise'] = tprop_r_out
-	tprop_dict['out_fall'] = tprop_f_out
+	tprop_r_out_vec = []
+	tprop_f_out_vec = []
+	for i in range(num_out):
+		out_vec = results[f'tran_out{i}']
+		tprop_r_out = calc_tprop(t_vec, in_vec, out_vec, 1, vmid_in_r, vmid_out_r, positive=True, inverted=False)
+		tprop_f_out = calc_tprop(t_vec, in_vec, out_vec, 1, vmid_in_f, vmid_out_f, positive=False, inverted=False)
+		tprop_r_out_vec.append(tprop_r_out)
+		tprop_f_out_vec.append(tprop_f_out)
+	tprop_dict['out_rise'] = tprop_r_out_vec
+	tprop_dict['out_fall'] = tprop_f_out_vec
 
 	if meas_inv:
-		outb_vec 	= results['tran_outb']
-		tprop_r_outb = calc_tprop(t_vec, in_vec, outb_vec, 1, vmid_in_f, vmid_out_r, positive=True, inverted=True)
-		tprop_f_outb = calc_tprop(t_vec, in_vec, outb_vec, 1, vmid_in_r, vmid_out_f, positive=False, inverted=True)
-		tprop_dict['outb_rise'] = tprop_r_outb
-		tprop_dict['outb_fall'] = tprop_f_outb
+		tprop_r_outb_vec = []
+		tprop_f_outb_vec = []
+		for i in range(num_outb):
+			outb_vec = results[f'tran_outb{i}']
+			tprop_r_outb = calc_tprop(t_vec, in_vec, outb_vec, 1, vmid_in_f, vmid_out_r, positive=True, inverted=True)
+			tprop_f_outb = calc_tprop(t_vec, in_vec, outb_vec, 1, vmid_in_r, vmid_out_f, positive=False, inverted=True)
+			tprop_r_outb_vec.append(tprop_r_outb)
+			tprop_f_outb_vec.append(tprop_f_outb)
+		tprop_dict['outb_rise'] = tprop_r_outb_vec
+		tprop_dict['outb_fall'] = tprop_f_outb_vec
 
 	return tprop_dict
 
@@ -93,7 +113,7 @@ def run_main(bprj):
 		tstop=tper*10)
 
 	# DUT parameters
-	num_inv = 4
+	num_inv = 15
 	export_outb = False
 	nstack_params = dict(stack=2,
 		lch_list=[500e-9, 500e-9],
