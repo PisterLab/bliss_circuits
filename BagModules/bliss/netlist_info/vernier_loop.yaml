@@ -1,0 +1,204 @@
+lib_name: bliss
+cell_name: vernier_loop
+pins: [ "IN_STOP", "MUX_LOOP", "VDD", "VSS", "IN_START", "VP_START", "VN_START", "VP_STOP", "VN_STOP", "SETb", "CLRb", "Q", "QM" ]
+instances:
+  XVERNIER:
+    lib_name: bliss
+    cell_name: vernier_core
+    instpins:
+      outb_START:
+        direction: output
+        net_name: "outb_START"
+        num_bits: 1
+      outb_STOP:
+        direction: output
+        net_name: "outb_STOP"
+        num_bits: 1
+      out_STOP:
+        direction: output
+        net_name: "out_STOP"
+        num_bits: 1
+      out_START:
+        direction: output
+        net_name: "out_START"
+        num_bits: 1
+      Q:
+        direction: output
+        net_name: "Q"
+        num_bits: 1
+      VDD:
+        direction: inputOutput
+        net_name: "VDD"
+        num_bits: 1
+      VDD_START:
+        direction: inputOutput
+        net_name: "VDD"
+        num_bits: 1
+      VSS:
+        direction: inputOutput
+        net_name: "VSS"
+        num_bits: 1
+      VDD_STOP:
+        direction: inputOutput
+        net_name: "VDD"
+        num_bits: 1
+      QM:
+        direction: output
+        net_name: "QM"
+        num_bits: 1
+      CLRb:
+        direction: input
+        net_name: "CLRb"
+        num_bits: 1
+      SETb:
+        direction: input
+        net_name: "SETb"
+        num_bits: 1
+      VN_START:
+        direction: input
+        net_name: "VN_START"
+        num_bits: 1
+      VN_STOP:
+        direction: input
+        net_name: "VN_STOP"
+        num_bits: 1
+      VP_START:
+        direction: input
+        net_name: "VP_START"
+        num_bits: 1
+      VP_STOP:
+        direction: input
+        net_name: "VP_STOP"
+        num_bits: 1
+      in_START:
+        direction: input
+        net_name: "mux_START"
+        num_bits: 1
+      in_STOP:
+        direction: input
+        net_name: "mux_STOP"
+        num_bits: 1
+  XMUX_START:
+    lib_name: bag2_digital
+    cell_name: mux2
+    instpins:
+      S:
+        direction: input
+        net_name: "MUX_LOOP"
+        num_bits: 1
+      VSS:
+        direction: inputOutput
+        net_name: "VSS"
+        num_bits: 1
+      VDD:
+        direction: inputOutput
+        net_name: "VDD"
+        num_bits: 1
+      out:
+        direction: output
+        net_name: "mux_START"
+        num_bits: 1
+      in<1>:
+        direction: input
+        net_name: "outb_START"
+        num_bits: 1
+      in<0>:
+        direction: input
+        net_name: "IN_START"
+        num_bits: 1
+  XMUX_STOP:
+    lib_name: bag2_digital
+    cell_name: mux2
+    instpins:
+      S:
+        direction: input
+        net_name: "MUX_LOOP"
+        num_bits: 1
+      VSS:
+        direction: inputOutput
+        net_name: "VSS"
+        num_bits: 1
+      VDD:
+        direction: inputOutput
+        net_name: "VDD"
+        num_bits: 1
+      out:
+        direction: output
+        net_name: "mux_STOP"
+        num_bits: 1
+      in<1>:
+        direction: input
+        net_name: "outb_STOP"
+        num_bits: 1
+      in<0>:
+        direction: input
+        net_name: "IN_STOP"
+        num_bits: 1
+  PIN10:
+    lib_name: basic
+    cell_name: ipin
+    instpins: {}
+  PIN9:
+    lib_name: basic
+    cell_name: ipin
+    instpins: {}
+  PIN8:
+    lib_name: basic
+    cell_name: ipin
+    instpins: {}
+  PIN7:
+    lib_name: basic
+    cell_name: ipin
+    instpins: {}
+  PIN6:
+    lib_name: basic
+    cell_name: ipin
+    instpins: {}
+  PIN5:
+    lib_name: basic
+    cell_name: ipin
+    instpins: {}
+  PIN4:
+    lib_name: basic
+    cell_name: ipin
+    instpins: {}
+  PIN1:
+    lib_name: basic
+    cell_name: ipin
+    instpins: {}
+  PIN0:
+    lib_name: basic
+    cell_name: ipin
+    instpins: {}
+  PIN3:
+    lib_name: basic
+    cell_name: iopin
+    instpins: {}
+  PIN2:
+    lib_name: basic
+    cell_name: iopin
+    instpins: {}
+  PIN12:
+    lib_name: basic
+    cell_name: opin
+    instpins: {}
+  PIN11:
+    lib_name: basic
+    cell_name: opin
+    instpins: {}
+  I4:
+    lib_name: basic
+    cell_name: noConn
+    instpins:
+      noConn:
+        direction: inputOutput
+        net_name: "out_STOP"
+        num_bits: 1
+  I3:
+    lib_name: basic
+    cell_name: noConn
+    instpins:
+      noConn:
+        direction: inputOutput
+        net_name: "out_START"
+        num_bits: 1

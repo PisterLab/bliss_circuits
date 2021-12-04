@@ -1,6 +1,6 @@
 lib_name: bliss
 cell_name: vernier_core
-pins: [ "in_START", "in_STOP", "VP_START", "VP_STOP", "VN_START", "VN_STOP", "CLRb", "SETb", "VDD", "VSS", "QM", "VDD_START", "VDD_STOP", "Q" ]
+pins: [ "in_START", "in_STOP", "VP_START", "VP_STOP", "VN_START", "out_START", "VN_STOP", "CLRb", "SETb", "VDD", "VSS", "QM", "VDD_START", "VDD_STOP", "Q", "outb_START", "out_STOP", "outb_STOP" ]
 instances:
   XDELAY_STOP:
     lib_name: bag2_digital
@@ -170,11 +170,27 @@ instances:
     lib_name: basic
     cell_name: ipin
     instpins: {}
+  PIN17:
+    lib_name: basic
+    cell_name: opin
+    instpins: {}
+  PIN16:
+    lib_name: basic
+    cell_name: opin
+    instpins: {}
   PIN11:
     lib_name: basic
     cell_name: opin
     instpins: {}
+  PIN14:
+    lib_name: basic
+    cell_name: opin
+    instpins: {}
   PIN6:
+    lib_name: basic
+    cell_name: opin
+    instpins: {}
+  PIN15:
     lib_name: basic
     cell_name: opin
     instpins: {}
