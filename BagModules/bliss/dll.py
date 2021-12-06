@@ -33,9 +33,13 @@ class bliss__dll(Module):
             dictionary from parameter names to descriptions.
         """
         return dict(
+            delay_line_params='Parameters for the delay line.',
+            pfd_params='Parameters for the phase frequency detector',
+            cp_params='Parameters for the charge pump',
+            ctrl_side='p or n for which side tunes the delay on the delay line.'
         )
 
-    def design(self):
+    def design(self, **params):
         """To be overridden by subclasses to design this module.
 
         This method should fill in values for all parameters in
@@ -51,5 +55,24 @@ class bliss__dll(Module):
         restore_instance()
         array_instance()
         """
-        pass
+        delay_line_params   = params['delay_line_params']
+        pfd_params          = params['pfd_params']
+        cp_params           = params['cp_params']
+        ctrl_side           = params['ctrl_side']
+
+        delay_nstack = delay_line_params['inv_tristate_params']['nstack_params']['stack']
+        delay_pstack = delay_line_params['inv_tristate_params']['pstack_params']['stack']
+        has_ngate = delay_nstack > 1
+        has_pgate = delay_pstack > 1
+
+        assert (has_ngate and ctrl_side=='n') or (has_pgate and ctrl_side=='p'), "Attempting to control from a device that doesn't exist"
+
+        if ctrl_side=='p':
+            self.reconnect_instance_terminal('XDELAY', 'VP', 'VPD')
+            self.reconnect_instance_terminal('XDELAY', 'VN', 'VN')
+
+
+        self.instances['XDELAY'].design(**delay_line_params)
+        self.instances['XPFD'].design(**pfd_params)
+        self.instances['XCP'].design(**cp_params)
 

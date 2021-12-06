@@ -1,6 +1,6 @@
 lib_name: bliss
 cell_name: dll
-pins: [ "CLK_IN", "CLK_OUT", "VDD", "VSS", "VGP", "VGN", "VPD" ]
+pins: [ "CLK_IN", "CLK_OUT", "VDD", "VSS", "IREFN", "VPD", "IREFP" ]
 instances:
   XDELAY:
     lib_name: bag2_digital
@@ -74,6 +74,14 @@ instances:
     lib_name: bliss
     cell_name: charge_pump
     instpins:
+      IREFN:
+        direction: input
+        net_name: "IREFN"
+        num_bits: 1
+      IREFP:
+        direction: input
+        net_name: "IREFP"
+        num_bits: 1
       VSS:
         direction: inputOutput
         net_name: "VSS"
@@ -93,14 +101,6 @@ instances:
       UPb:
         direction: input
         net_name: "UPb"
-        num_bits: 1
-      VGN:
-        direction: input
-        net_name: "VGN"
-        num_bits: 1
-      VGP:
-        direction: input
-        net_name: "VGP"
         num_bits: 1
   XCLF:
     lib_name: bag2_wrappers
