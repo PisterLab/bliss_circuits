@@ -1,6 +1,6 @@
 lib_name: bliss
 cell_name: vernier_loop
-pins: [ "IN_STOP", "MUX_LOOP", "VDD", "VSS", "IN_START", "VP_START", "VN_START", "VP_STOP", "VN_STOP", "SETb", "CLRb", "Q", "QM" ]
+pins: [ "IN_STOP", "MUX_LOOP", "VDD", "VSS", "IN_START", "VP_START", "VN_START", "VP_STOP", "VN_STOP", "SETb", "CLRb", "Q", "QM", "out_START", "outb_START", "out_STOP", "outb_STOP" ]
 instances:
   XVERNIER:
     lib_name: bliss
@@ -177,6 +177,22 @@ instances:
   PIN2:
     lib_name: basic
     cell_name: iopin
+    instpins: {}
+  PIN16:
+    lib_name: basic
+    cell_name: opin
+    instpins: {}
+  PIN15:
+    lib_name: basic
+    cell_name: opin
+    instpins: {}
+  PIN14:
+    lib_name: basic
+    cell_name: opin
+    instpins: {}
+  PIN13:
+    lib_name: basic
+    cell_name: opin
     instpins: {}
   PIN12:
     lib_name: basic

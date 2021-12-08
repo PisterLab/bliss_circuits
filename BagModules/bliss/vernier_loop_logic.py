@@ -9,14 +9,14 @@ from bag.design.module import Module
 
 
 # noinspection PyPep8Naming
-class bliss__vernier_loop(Module):
-    """Module for library bliss cell vernier_loop.
+class bliss__vernier_loop_logic(Module):
+    """Module for library bliss cell vernier_loop_logic.
 
     Fill in high level description here.
     """
     yaml_file = pkg_resources.resource_filename(__name__,
                                                 os.path.join('netlist_info',
-                                                             'vernier_loop.yaml'))
+                                                             'vernier_loop_logic.yaml'))
 
 
     def __init__(self, database, parent=None, prj=None, **kwargs):
@@ -33,11 +33,9 @@ class bliss__vernier_loop(Module):
             dictionary from parameter names to descriptions.
         """
         return dict(
-            mux_params='Parameters the mux for signal vs. loop',
-            vernier_params='Vernier core parameters'
         )
 
-    def design(self, **params):
+    def design(self):
         """To be overridden by subclasses to design this module.
 
         This method should fill in values for all parameters in
@@ -53,9 +51,5 @@ class bliss__vernier_loop(Module):
         restore_instance()
         array_instance()
         """
-        mux2_params     = params['mux_params']
-        vernier_params  = params['vernier_params']
+        pass
 
-        self.instances['XMUX_START'].design(**mux2_params)
-        self.instances['XMUX_STOP'].design(**mux2_params)
-        self.instances['XVERNIER'].design(**vernier_params)

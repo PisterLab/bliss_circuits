@@ -1,0 +1,6 @@
+//Verilog HDL for "bliss", "vernier_loop_logic" "functional"
+
+
+module vernier_loop_logic ( );
+
+endmodule
