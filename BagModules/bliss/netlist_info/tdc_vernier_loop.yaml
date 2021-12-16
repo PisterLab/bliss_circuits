@@ -1,0 +1,128 @@
+lib_name: bliss
+cell_name: tdc_vernier_loop
+pins: [ "VDD", "VSS", "B_THERM", "IN_START", "IN_STOP" ]
+instances:
+  XDLL:
+    lib_name: bliss
+    cell_name: dll
+    instpins:
+      VSS:
+        direction: inputOutput
+        net_name: "VSS"
+        num_bits: 1
+      VDD:
+        direction: inputOutput
+        net_name: "VDD"
+        num_bits: 1
+      CLK_OUT:
+        direction: output
+        net_name: "net5"
+        num_bits: 1
+      VPD:
+        direction: output
+        net_name: "net4"
+        num_bits: 1
+      CLK_IN:
+        direction: input
+        net_name: "net3"
+        num_bits: 1
+      IREFN:
+        direction: input
+        net_name: "net2"
+        num_bits: 1
+      IREFP:
+        direction: input
+        net_name: "net1"
+        num_bits: 1
+  XVERNIER:
+    lib_name: bliss
+    cell_name: vernier_loop
+    instpins:
+      out_START:
+        direction: output
+        net_name: "net20"
+        num_bits: 1
+      out_STOP:
+        direction: output
+        net_name: "net16"
+        num_bits: 1
+      outb_START:
+        direction: output
+        net_name: "net13"
+        num_bits: 1
+      outb_STOP:
+        direction: output
+        net_name: "net9"
+        num_bits: 1
+      VSS:
+        direction: inputOutput
+        net_name: "VSS"
+        num_bits: 1
+      VDD:
+        direction: inputOutput
+        net_name: "VDD"
+        num_bits: 1
+      Q:
+        direction: output
+        net_name: "net19"
+        num_bits: 1
+      QM:
+        direction: output
+        net_name: "net18"
+        num_bits: 1
+      CLRb:
+        direction: input
+        net_name: "net17"
+        num_bits: 1
+      IN_START:
+        direction: input
+        net_name: "net15"
+        num_bits: 1
+      IN_STOP:
+        direction: input
+        net_name: "net14"
+        num_bits: 1
+      MUX_LOOP:
+        direction: input
+        net_name: "net12"
+        num_bits: 1
+      SETb:
+        direction: input
+        net_name: "net11"
+        num_bits: 1
+      VN_START:
+        direction: input
+        net_name: "net10"
+        num_bits: 1
+      VN_STOP:
+        direction: input
+        net_name: "net8"
+        num_bits: 1
+      VP_START:
+        direction: input
+        net_name: "net7"
+        num_bits: 1
+      VP_STOP:
+        direction: input
+        net_name: "net6"
+        num_bits: 1
+  PIN1:
+    lib_name: basic
+    cell_name: iopin
+    instpins: {}
+  PIN0:
+    lib_name: basic
+    cell_name: iopin
+    instpins: {}
+  PIN2:
+    lib_name: basic
+    cell_name: opin
+    instpins: {}
+  PIN4:
+    lib_name: basic
+    cell_name: ipin
+    instpins: {}
+  PIN3:
+    lib_name: basic
+    cell_name: ipin
+    instpins: {}
