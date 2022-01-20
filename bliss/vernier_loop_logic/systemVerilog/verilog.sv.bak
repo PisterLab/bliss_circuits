@@ -1,13 +1,12 @@
-//Verilog HDL for "bliss", "vernier_loop_logic" "functional"
+//systemVerilog HDL for "bliss", "vernier_loop_logic" "systemVerilog"
 
 
 module vernier_loop_logic #(
-	parameter B_COUNT) (
+	parameter B_COUNT=1) (
 	input 	wire line_out_i,
 	input 	wire rst,
 	output 	wire mux_loop_o,
-	output 	reg [B_COUNT-1:0] loop_count_o,
-);
+	output 	reg [B_COUNT-1:0] loop_count_o);
 
 always @(posedge rst) begin
 	mux_loop_o = 1'b0;
