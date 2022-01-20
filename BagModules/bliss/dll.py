@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from typing import Dict
+from warnings import warn
 
 import os
 import pkg_resources
@@ -36,7 +37,8 @@ class bliss__dll(Module):
             delay_line_params='Parameters for the delay line.',
             pfd_params='Parameters for the phase frequency detector',
             cp_params='Parameters for the charge pump',
-            ctrl_side='p or n for which side tunes the delay on the delay line.'
+            ctrl_side='p or n for which side tunes the delay on the delay line.',
+            clf_params='Loop filter capacitor parameters.'
         )
 
     def design(self, **params):
@@ -59,6 +61,7 @@ class bliss__dll(Module):
         pfd_params          = params['pfd_params']
         cp_params           = params['cp_params']
         ctrl_side           = params['ctrl_side']
+        cap_params          = params['clf_params']
 
         delay_nstack = delay_line_params['inv_tristate_params']['nstack_params']['stack']
         delay_pstack = delay_line_params['inv_tristate_params']['pstack_params']['stack']
@@ -71,8 +74,19 @@ class bliss__dll(Module):
             self.reconnect_instance_terminal('XDELAY', 'VP', 'VPD')
             self.reconnect_instance_terminal('XDELAY', 'VN', 'VN')
 
-
         self.instances['XDELAY'].design(**delay_line_params)
         self.instances['XPFD'].design(**pfd_params)
         self.instances['XCP'].design(**cp_params)
 
+        num_inv = delay_line_params['num_inv']
+        num_out = num_inv // 2
+        suffix_out = f'<{num_out-1}:0>'
+        suffix_out_short = f'<{num_out-2}:0>' if num_out > 2 else ''
+
+        if num_out > 1:
+            self.reconnect_instance_terminal('XDELAY', 
+                f'out{suffix_out}',\
+                f'CLK_OUT,out{suffix_out_short}')
+
+        warn('(dll) Check passive value')
+        self.instances['XCLF'].parameters = cap_params

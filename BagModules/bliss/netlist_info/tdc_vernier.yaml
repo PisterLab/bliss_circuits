@@ -1,0 +1,240 @@
+lib_name: bliss
+cell_name: tdc_vernier
+pins: [ "VDD", "VSS", "VDD_START", "VDD_STOP", "in_START", "in_STOP", "VPD_START", "CLK_DLL_START", "IREFP_CP_STOP", "VPD_STOP", "IREFN_CP_START", "out_START", "outb_START", "Q", "QM", "out_STOP", "outb_STOP", "SETb", "CLRb", "CLK_REF_START", "IREFP_CP_START", "IREFN_CP_STOP", "CLK_REF_STOP", "CLK_DLL_STOP" ]
+instances:
+  XVERNIER:
+    lib_name: bliss
+    cell_name: vernier_core
+    instpins:
+      outb_START:
+        direction: output
+        net_name: "outb_START"
+        num_bits: 1
+      outb_STOP:
+        direction: output
+        net_name: "outb_STOP"
+        num_bits: 1
+      out_STOP:
+        direction: output
+        net_name: "out_STOP"
+        num_bits: 1
+      Q:
+        direction: output
+        net_name: "Q"
+        num_bits: 1
+      VDD:
+        direction: inputOutput
+        net_name: "VDD"
+        num_bits: 1
+      VDD_START:
+        direction: inputOutput
+        net_name: "VDD_START"
+        num_bits: 1
+      VSS:
+        direction: inputOutput
+        net_name: "VSS"
+        num_bits: 1
+      VDD_STOP:
+        direction: inputOutput
+        net_name: "VDD_STOP"
+        num_bits: 1
+      out_START:
+        direction: output
+        net_name: "out_START"
+        num_bits: 1
+      QM:
+        direction: output
+        net_name: "QM"
+        num_bits: 1
+      CLRb:
+        direction: input
+        net_name: "CLRb"
+        num_bits: 1
+      SETb:
+        direction: input
+        net_name: "SETb"
+        num_bits: 1
+      VN_START:
+        direction: input
+        net_name: "VPD_START"
+        num_bits: 1
+      VN_STOP:
+        direction: input
+        net_name: "VPD_STOP"
+        num_bits: 1
+      VP_START:
+        direction: input
+        net_name: "VPD_START"
+        num_bits: 1
+      VP_STOP:
+        direction: input
+        net_name: "VPD_STOP"
+        num_bits: 1
+      in_START:
+        direction: input
+        net_name: "in_START"
+        num_bits: 1
+      in_STOP:
+        direction: input
+        net_name: "in_STOP"
+        num_bits: 1
+  XDLL_STOP:
+    lib_name: bliss
+    cell_name: dll
+    instpins:
+      VSS:
+        direction: inputOutput
+        net_name: "VSS"
+        num_bits: 1
+      VDD:
+        direction: inputOutput
+        net_name: "VDD_STOP"
+        num_bits: 1
+      CLK_OUT:
+        direction: output
+        net_name: "CLK_DLL_STOP"
+        num_bits: 1
+      VPD:
+        direction: output
+        net_name: "VPD_STOP"
+        num_bits: 1
+      CLK_IN:
+        direction: input
+        net_name: "CLK_REF_STOP"
+        num_bits: 1
+      IREFN:
+        direction: input
+        net_name: "IREFN_CP_STOP"
+        num_bits: 1
+      IREFP:
+        direction: input
+        net_name: "IREFP_CP_STOP"
+        num_bits: 1
+  XDLL_START:
+    lib_name: bliss
+    cell_name: dll
+    instpins:
+      VSS:
+        direction: inputOutput
+        net_name: "VSS"
+        num_bits: 1
+      VDD:
+        direction: inputOutput
+        net_name: "VDD_START"
+        num_bits: 1
+      CLK_OUT:
+        direction: output
+        net_name: "CLK_DLL_START"
+        num_bits: 1
+      VPD:
+        direction: output
+        net_name: "VPD_START"
+        num_bits: 1
+      CLK_IN:
+        direction: input
+        net_name: "CLK_REF_START"
+        num_bits: 1
+      IREFN:
+        direction: input
+        net_name: "IREFN_CP_START"
+        num_bits: 1
+      IREFP:
+        direction: input
+        net_name: "IREFP_CP_START"
+        num_bits: 1
+  PIN3:
+    lib_name: basic
+    cell_name: iopin
+    instpins: {}
+  PIN2:
+    lib_name: basic
+    cell_name: iopin
+    instpins: {}
+  PIN1:
+    lib_name: basic
+    cell_name: iopin
+    instpins: {}
+  PIN0:
+    lib_name: basic
+    cell_name: iopin
+    instpins: {}
+  PIN22:
+    lib_name: basic
+    cell_name: ipin
+    instpins: {}
+  PIN21:
+    lib_name: basic
+    cell_name: ipin
+    instpins: {}
+  PIN20:
+    lib_name: basic
+    cell_name: ipin
+    instpins: {}
+  PIN18:
+    lib_name: basic
+    cell_name: ipin
+    instpins: {}
+  PIN17:
+    lib_name: basic
+    cell_name: ipin
+    instpins: {}
+  PIN9:
+    lib_name: basic
+    cell_name: ipin
+    instpins: {}
+  PIN8:
+    lib_name: basic
+    cell_name: ipin
+    instpins: {}
+  PIN6:
+    lib_name: basic
+    cell_name: ipin
+    instpins: {}
+  PIN5:
+    lib_name: basic
+    cell_name: ipin
+    instpins: {}
+  PIN4:
+    lib_name: basic
+    cell_name: ipin
+    instpins: {}
+  PIN23:
+    lib_name: basic
+    cell_name: opin
+    instpins: {}
+  PIN19:
+    lib_name: basic
+    cell_name: opin
+    instpins: {}
+  PIN16:
+    lib_name: basic
+    cell_name: opin
+    instpins: {}
+  PIN15:
+    lib_name: basic
+    cell_name: opin
+    instpins: {}
+  PIN14:
+    lib_name: basic
+    cell_name: opin
+    instpins: {}
+  PIN13:
+    lib_name: basic
+    cell_name: opin
+    instpins: {}
+  PIN12:
+    lib_name: basic
+    cell_name: opin
+    instpins: {}
+  PIN11:
+    lib_name: basic
+    cell_name: opin
+    instpins: {}
+  PIN10:
+    lib_name: basic
+    cell_name: opin
+    instpins: {}
+  PIN7:
+    lib_name: basic
+    cell_name: opin
+    instpins: {}
