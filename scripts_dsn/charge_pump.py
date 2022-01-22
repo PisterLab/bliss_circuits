@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from typing import Mapping, Tuple, Any, List
+from warnings import warn
 
 import os
 import pkg_resources
@@ -9,8 +10,6 @@ import numpy as np
 from bag.design.module import Module
 from . import DesignModule, get_mos_db, estimate_vth, parallel, verify_ratio, num_den_add, enable_print, disable_print
 from bag.data.lti import LTICircuit, get_w_3db, get_stability_margins
-from .amp_diff_mirr_bias import bag2_analog__amp_diff_mirr_bias_dsn
-from .constant_gm import bag2_analog__constant_gm_dsn
 
 # noinspection PyPep8Naming
 class bliss__charge_pump_dsn(DesignModule):
@@ -54,12 +53,14 @@ class bliss__charge_pump_dsn(DesignModule):
         l_dict = params['l_dict']
         th_dict = params['th_dict']
         sim_env = params['sim_env']
+
         
         # Databases
         db_dict = {k:get_mos_db(spec_file=specfile_dict[k],
                                 intent=th_dict[k],
                                 lch=l_dict[k],
                                 sim_env=sim_env) for k in specfile_dict.keys()}
+        w_dict = {k:float(v.width_list[0]) for k,v in db_dict.items()}
 
         vdd = params['vdd']
         ipump = params['ipump']
@@ -81,8 +82,9 @@ class bliss__charge_pump_dsn(DesignModule):
 
         # Check if you'll need more current than allowed for biasing
         ratio_ok, nf_ratio = verify_ratio(ipump, iref_min, 1, error_tol)
-        if nf_ratio * iref_min > iref_max:
-            return viable_op_list
+        # if nf_ratio * iref_min > iref_max:
+        #     assert False, 'blep'
+        #     return viable_op_list
 
         # Sweep possible gate voltages
         vth_pouter = estimate_vth(db=db_dict['pouter'], is_nch=False, vgs=-vdd/2, vbs=0, lch=l_dict['pouter'])
@@ -106,12 +108,14 @@ class bliss__charge_pump_dsn(DesignModule):
                 op_nmirr = db_dict['nouter'].query(vgs=vg, vds=vg, vbs=0)
                 nmirr_ok, nf_nmirr = verify_ratio(iref, op_nmirr['ibias'], 1, error_tol)
                 
+                vdn_min = vstar_min
+                vdn_max = vdd
                 if nmirr_ok:
                     # Get viable vdn range
                     vdn_clear = False
                     vdn_vec = np.arange(vstar_min, vdd, res_vstep)
                     for vdn in vdn_vec:
-                        op_nouter = db_dict['nouter'].query(vgs=vgn, vds=vdn, vbs=0)
+                        op_nouter = db_dict['nouter'].query(vgs=vg, vds=vdn, vbs=0)
                         idn = op_nouter['ibias'] * nf_ratio
                         if abs(idn-ipump)/ipump > error_tol:
                             if vdn_clear:
@@ -120,13 +124,14 @@ class bliss__charge_pump_dsn(DesignModule):
                             else:
                                 vdn_min = vdn
                         else:
+                            vdn_clear = True
                             op_nsw = db_dict['ninner'].query(vgs=vdd-vdn_max, vds=vdiff_switch, vbs=-vdn_max)
                             nf_nsw = np.ceil(ipump/op_nsw['ibias'])
                             viable_n = dict(nf_nmirr=nf_nmirr,
                                 nf_nouter=nf_nmirr*nf_ratio,
                                 nf_nsw=nf_nsw,
                                 irefn=iref,
-                                vgn=vgn,
+                                vgn=vg,
                                 vdn=vdn,
                                 vdn_min=vdn_min,
                                 vdn_max=vdn_max)
@@ -134,14 +139,16 @@ class bliss__charge_pump_dsn(DesignModule):
 
                 # PMOS
                 op_pmirr = db_dict['pouter'].query(vgs=vg-vdd, vds=vg-vdd, vbs=0)
-                pmirr_ok, nf_pmirr = verify_ratio(irefp, op_pmirr['ibias'], 1, error_tol)
+                pmirr_ok, nf_pmirr = verify_ratio(iref, op_pmirr['ibias'], 1, error_tol)
 
+                vdp_min = 0
+                vdp_max = vdd - vstar_min
                 if pmirr_ok:
                     # Get viable vdp range
                     vdp_clear = False
                     vdp_vec = np.arange(0, vdd-vstar_min, res_vstep)
                     for vdp in vdp_vec:
-                        op_pouter = db_dict['pouter'].query(vgs=vgp-vdd, vds=vdp-vdd, vbs=0)
+                        op_pouter = db_dict['pouter'].query(vgs=vg-vdd, vds=vdp-vdd, vbs=0)
                         idp = op_pouter['ibias'] * nf_ratio
                         if abs(idp-ipump)/ipump > error_tol:
                             if vdp_clear:
@@ -150,13 +157,14 @@ class bliss__charge_pump_dsn(DesignModule):
                             else:
                                 vdp_min = vdp
                         else:
+                            vdp_clear = True
                             op_psw = db_dict['pinner'].query(vgs=-vdp_min, vds=-vdiff_switch, vbs=vdd-vdp_min)
                             nf_psw = np.ceil(ipump/op_psw['ibias'])
                             viable_p = dict(nf_pmirr=nf_pmirr,
                                 nf_pouter=nf_pmirr*nf_ratio,
                                 nf_psw=nf_psw,
                                 irefp=iref,
-                                vgp=vgp,
+                                vgp=vg,
                                 vdp=vdp,
                                 vdp_min=vdp_min,
                                 vdp_max=vdp_max)
