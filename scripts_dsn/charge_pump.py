@@ -162,7 +162,10 @@ class bliss__charge_pump_dsn(DesignModule):
                                 vdp_max=vdp_max)
                             viable_p_list.append(viable_p)
 
-
+        for viable_n_op in viable_n_list:
+            for viable_p_op in viable_p_list:
+                viable_op = viable_n_op.update(viable_p_op)
+                viable_op_list.append(viable_op)
 
         return viable_op_list
 
@@ -170,7 +173,7 @@ class bliss__charge_pump_dsn(DesignModule):
         """Returns the best operating condition based on 
         minimizing bias current.
         """
-        # return op2 if op1['ibias'] > op2['ibias'] else op1
+        return op2 if op1['irefn'] + op1['irefp'] > op2['irefn'] + op2['irefp'] else op1
 
     def get_sch_params(self, op):
         for k,lch in self.other_params['l_dict'].items():
@@ -179,7 +182,12 @@ class bliss__charge_pump_dsn(DesignModule):
         for k,wch in self.other_params['w_dict'].items():
             self.other_params['w_dict'][k] = float(wch)
 
-        return dict(seg_dict=,
+        return dict(seg_dict=dict(pouter=op['nf_pouter'],
+                nouter=op['nf_nouter'],
+                pinner=op['nf_psw'],
+                ninner=op['nf_nsw'],
+                pouter_bias=op['nf_pmirr'],
+                nouter_bias=op['nf_nmirr']),
             lch_dict=self.other_params['l_dict'],
             w_dict=self.other_params['w_dict'],
             th_dict=self.other_params['th_dict'])
