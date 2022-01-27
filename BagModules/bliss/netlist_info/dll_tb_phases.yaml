@@ -1,0 +1,108 @@
+lib_name: bliss
+cell_name: dll_tb_phases
+pins: [  ]
+instances:
+  XDLL:
+    lib_name: bliss
+    cell_name: dll
+    instpins:
+      VSS:
+        direction: inputOutput
+        net_name: "VSS"
+        num_bits: 1
+      VDD:
+        direction: inputOutput
+        net_name: "VDD"
+        num_bits: 1
+      CLK_OUT:
+        direction: output
+        net_name: "CLK_OUT"
+        num_bits: 1
+      VPD:
+        direction: output
+        net_name: "VPD"
+        num_bits: 1
+      CLK_IN:
+        direction: input
+        net_name: "CLK_IN"
+        num_bits: 1
+      IREFN:
+        direction: input
+        net_name: "IREFN"
+        num_bits: 1
+      IREFP:
+        direction: input
+        net_name: "IREFP"
+        num_bits: 1
+  I4:
+    lib_name: analogLib
+    cell_name: gnd
+    instpins:
+      gnd!:
+        direction: inputOutput
+        net_name: "gnd!"
+        num_bits: 1
+  I2:
+    lib_name: analogLib
+    cell_name: gnd
+    instpins:
+      gnd!:
+        direction: inputOutput
+        net_name: "gnd!"
+        num_bits: 1
+  I1:
+    lib_name: analogLib
+    cell_name: gnd
+    instpins:
+      gnd!:
+        direction: inputOutput
+        net_name: "gnd!"
+        num_bits: 1
+  V1:
+    lib_name: analogLib
+    cell_name: vdc
+    instpins:
+      PLUS:
+        direction: inputOutput
+        net_name: "VSS"
+        num_bits: 1
+      MINUS:
+        direction: inputOutput
+        net_name: "gnd!"
+        num_bits: 1
+  V0:
+    lib_name: analogLib
+    cell_name: vdc
+    instpins:
+      PLUS:
+        direction: inputOutput
+        net_name: "VDD"
+        num_bits: 1
+      MINUS:
+        direction: inputOutput
+        net_name: "gnd!"
+        num_bits: 1
+  I3:
+    lib_name: analogLib
+    cell_name: idc
+    instpins:
+      PLUS:
+        direction: inputOutput
+        net_name: "IREFP"
+        num_bits: 1
+      MINUS:
+        direction: inputOutput
+        net_name: "IREFN"
+        num_bits: 1
+  V2:
+    lib_name: analogLib
+    cell_name: vpulse
+    instpins:
+      PLUS:
+        direction: inputOutput
+        net_name: "CLK_IN"
+        num_bits: 1
+      MINUS:
+        direction: inputOutput
+        net_name: "gnd!"
+        num_bits: 1

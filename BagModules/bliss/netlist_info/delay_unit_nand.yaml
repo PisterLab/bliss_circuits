@@ -1,0 +1,72 @@
+lib_name: bliss
+cell_name: delay_unit_nand
+pins: [ "VDD", "VSS", "VN", "VP", "out", "in<1>", "in<0>" ]
+instances:
+  XN:
+    lib_name: bag2_analog
+    cell_name: nmos4_astack
+    instpins:
+      D:
+        direction: inputOutput
+        net_name: "out"
+        num_bits: 1
+      S:
+        direction: inputOutput
+        net_name: "VSS"
+        num_bits: 1
+      B:
+        direction: inputOutput
+        net_name: "VSS"
+        num_bits: 1
+      G:
+        direction: inputOutput
+        net_name: "net6"
+        num_bits: 1
+  PIN1:
+    lib_name: basic
+    cell_name: iopin
+    instpins: {}
+  PIN0:
+    lib_name: basic
+    cell_name: iopin
+    instpins: {}
+  PIN6:
+    lib_name: basic
+    cell_name: ipin
+    instpins: {}
+  PIN2:
+    lib_name: basic
+    cell_name: ipin
+    instpins: {}
+  PIN5:
+    lib_name: basic
+    cell_name: ipin
+    instpins: {}
+  PIN4:
+    lib_name: basic
+    cell_name: ipin
+    instpins: {}
+  PIN3:
+    lib_name: basic
+    cell_name: opin
+    instpins: {}
+  XP:
+    lib_name: bag2_analog
+    cell_name: pmos4_astack
+    instpins:
+      D:
+        direction: inputOutput
+        net_name: "out"
+        num_bits: 1
+      S:
+        direction: inputOutput
+        net_name: "VDD"
+        num_bits: 1
+      B:
+        direction: inputOutput
+        net_name: "VDD"
+        num_bits: 1
+      G:
+        direction: inputOutput
+        net_name: "net5"
+        num_bits: 1
