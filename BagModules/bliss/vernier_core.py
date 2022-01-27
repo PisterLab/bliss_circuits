@@ -86,6 +86,8 @@ class bliss__vernier_core(Module):
         # Remove unnecessary pins
         if num_outb < 1:
             self.remove_pin('QM')
+            self.remove_pin('outb_START')
+            self.remove_pin('outb_STOP')
         if not start_has_ngate:
             self.remove_pin('VN_START')
         if not start_has_pgate:
@@ -137,6 +139,8 @@ class bliss__vernier_core(Module):
                 VDD='VDD',
                 VSS='VSS')])
             inst_earlylate = self.instances['XEARLYLATE'][0]
+            self.rename_pin('out_START', f'out_START{suffix_out}')
+            self.rename_pin('out_STOP', f'out_STOP{suffix_out}')
         inst_earlylate.design(**ff_params)
 
         # inverting output earlylate and associated inverters
