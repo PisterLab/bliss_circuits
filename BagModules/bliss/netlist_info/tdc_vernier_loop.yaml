@@ -47,11 +47,11 @@ instances:
         net_name: "net16"
         num_bits: 1
       outb_START:
-        direction: output
+        direction: 
         net_name: "net13"
         num_bits: 1
       outb_STOP:
-        direction: output
+        direction: 
         net_name: "net9"
         num_bits: 1
       VSS:
@@ -83,7 +83,7 @@ instances:
         net_name: "net14"
         num_bits: 1
       MUX_LOOP:
-        direction: input
+        direction: 
         net_name: "net12"
         num_bits: 1
       SETb:

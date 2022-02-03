@@ -1,138 +1,70 @@
 lib_name: bliss
 cell_name: vernier_loop
-pins: [ "IN_STOP", "MUX_LOOP", "VDD", "VSS", "IN_START", "VP_START", "VN_START", "VP_STOP", "VN_STOP", "SETb", "CLRb", "Q", "QM", "out_START", "outb_START", "out_STOP", "outb_STOP" ]
+pins: [ "IN_STOP", "VDD_START", "VDD", "VSS", "IN_START", "VP_START", "VN_START", "VP_STOP", "VN_STOP", "SETb", "CLRb", "Q", "QM", "out_START", "outb_START<1:0>", "out_STOP", "outb_STOP<1:0>", "VDD_STOP" ]
 instances:
-  XVERNIER:
+  XDELAY_STOP:
     lib_name: bliss
-    cell_name: vernier_core
+    cell_name: delay_line_looped
     instpins:
-      outb_START:
+      outb<1:0>:
         direction: output
-        net_name: "outb_START"
+        net_name: "outb_STOP<1:0>"
+        num_bits: 2
+      VSS:
+        direction: inputOutput
+        net_name: "VSS"
         num_bits: 1
-      outb_STOP:
-        direction: output
-        net_name: "outb_STOP"
+      VDD:
+        direction: inputOutput
+        net_name: "VDD_STOP"
         num_bits: 1
-      out_STOP:
+      out:
         direction: output
         net_name: "out_STOP"
         num_bits: 1
-      out_START:
-        direction: output
-        net_name: "out_START"
-        num_bits: 1
-      Q:
-        direction: output
-        net_name: "Q"
-        num_bits: 1
-      VDD:
-        direction: inputOutput
-        net_name: "VDD"
-        num_bits: 1
-      VDD_START:
-        direction: inputOutput
-        net_name: "VDD"
-        num_bits: 1
-      VSS:
-        direction: inputOutput
-        net_name: "VSS"
-        num_bits: 1
-      VDD_STOP:
-        direction: inputOutput
-        net_name: "VDD"
-        num_bits: 1
-      QM:
-        direction: output
-        net_name: "QM"
-        num_bits: 1
-      CLRb:
-        direction: input
-        net_name: "CLRb"
-        num_bits: 1
-      SETb:
-        direction: input
-        net_name: "SETb"
-        num_bits: 1
-      VN_START:
-        direction: input
-        net_name: "VN_START"
-        num_bits: 1
-      VN_STOP:
+      VN:
         direction: input
         net_name: "VN_STOP"
         num_bits: 1
-      VP_START:
-        direction: input
-        net_name: "VP_START"
-        num_bits: 1
-      VP_STOP:
+      VP:
         direction: input
         net_name: "VP_STOP"
         num_bits: 1
-      in_START:
-        direction: input
-        net_name: "mux_START"
-        num_bits: 1
-      in_STOP:
-        direction: input
-        net_name: "mux_STOP"
-        num_bits: 1
-  XMUX_START:
-    lib_name: bag2_digital
-    cell_name: mux2
-    instpins:
-      S:
-        direction: input
-        net_name: "MUX_LOOP"
-        num_bits: 1
-      VSS:
-        direction: inputOutput
-        net_name: "VSS"
-        num_bits: 1
-      VDD:
-        direction: inputOutput
-        net_name: "VDD"
-        num_bits: 1
-      out:
-        direction: output
-        net_name: "mux_START"
-        num_bits: 1
-      in<1>:
-        direction: input
-        net_name: "outb_START"
-        num_bits: 1
-      in<0>:
-        direction: input
-        net_name: "IN_START"
-        num_bits: 1
-  XMUX_STOP:
-    lib_name: bag2_digital
-    cell_name: mux2
-    instpins:
-      S:
-        direction: input
-        net_name: "MUX_LOOP"
-        num_bits: 1
-      VSS:
-        direction: inputOutput
-        net_name: "VSS"
-        num_bits: 1
-      VDD:
-        direction: inputOutput
-        net_name: "VDD"
-        num_bits: 1
-      out:
-        direction: output
-        net_name: "mux_STOP"
-        num_bits: 1
-      in<1>:
-        direction: input
-        net_name: "outb_STOP"
-        num_bits: 1
-      in<0>:
+      in:
         direction: input
         net_name: "IN_STOP"
+        num_bits: 1
+  XDELAY_START:
+    lib_name: bliss
+    cell_name: delay_line_looped
+    instpins:
+      outb<1:0>:
+        direction: output
+        net_name: "outb_START<1:0>"
+        num_bits: 2
+      VSS:
+        direction: inputOutput
+        net_name: "VSS"
+        num_bits: 1
+      VDD:
+        direction: inputOutput
+        net_name: "VDD_START"
+        num_bits: 1
+      out:
+        direction: output
+        net_name: "out_START"
+        num_bits: 1
+      VN:
+        direction: input
+        net_name: "VN_START"
+        num_bits: 1
+      VP:
+        direction: input
+        net_name: "VP_START"
+        num_bits: 1
+      in:
+        direction: input
+        net_name: "IN_START"
         num_bits: 1
   PIN10:
     lib_name: basic
@@ -158,10 +90,6 @@ instances:
     lib_name: basic
     cell_name: ipin
     instpins: {}
-  PIN4:
-    lib_name: basic
-    cell_name: ipin
-    instpins: {}
   PIN1:
     lib_name: basic
     cell_name: ipin
@@ -170,11 +98,19 @@ instances:
     lib_name: basic
     cell_name: ipin
     instpins: {}
+  PIN4:
+    lib_name: basic
+    cell_name: iopin
+    instpins: {}
   PIN3:
     lib_name: basic
     cell_name: iopin
     instpins: {}
   PIN2:
+    lib_name: basic
+    cell_name: iopin
+    instpins: {}
+  PIN17:
     lib_name: basic
     cell_name: iopin
     instpins: {}
@@ -202,19 +138,75 @@ instances:
     lib_name: basic
     cell_name: opin
     instpins: {}
-  I4:
-    lib_name: basic
-    cell_name: noConn
+  XEARLYLATE:
+    lib_name: bag2_digital
+    cell_name: flipflop_D_nand
     instpins:
-      noConn:
+      CLRb:
+        direction: input
+        net_name: "CLRb"
+        num_bits: 1
+      VSS:
         direction: inputOutput
+        net_name: "VSS"
+        num_bits: 1
+      SETb:
+        direction: input
+        net_name: "SETb"
+        num_bits: 1
+      VDD:
+        direction: inputOutput
+        net_name: "VDD"
+        num_bits: 1
+      Q:
+        direction: output
+        net_name: "Q"
+        num_bits: 1
+      Qb:
+        direction: output
+        net_name: "net11"
+        num_bits: 1
+      CLK:
+        direction: input
         net_name: "out_STOP"
         num_bits: 1
-  I3:
-    lib_name: basic
-    cell_name: noConn
-    instpins:
-      noConn:
-        direction: inputOutput
+      D:
+        direction: input
         net_name: "out_START"
+        num_bits: 1
+  XEARLYLATEb:
+    lib_name: bag2_digital
+    cell_name: flipflop_D_nand
+    instpins:
+      CLRb:
+        direction: input
+        net_name: "SETb"
+        num_bits: 1
+      VSS:
+        direction: inputOutput
+        net_name: "VSS"
+        num_bits: 1
+      SETb:
+        direction: input
+        net_name: "CLRb"
+        num_bits: 1
+      VDD:
+        direction: inputOutput
+        net_name: "VDD"
+        num_bits: 1
+      Q:
+        direction: output
+        net_name: "QM"
+        num_bits: 1
+      Qb:
+        direction: output
+        net_name: "net3"
+        num_bits: 1
+      CLK:
+        direction: input
+        net_name: "outb_STOP<0>"
+        num_bits: 1
+      D:
+        direction: input
+        net_name: "outb_START<0>"
         num_bits: 1
